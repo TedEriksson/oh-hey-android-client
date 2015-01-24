@@ -10,9 +10,9 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 /**
  * Created by Ted Eriksson on 23/01/15.
  */
-@Rest(rootUrl = "oh-hey.elasticbeanstalk.com", converters = {MappingJacksonHttpMessageConverter.class})
+@Rest(rootUrl = "http://oh-hey.elasticbeanstalk.com", converters = {MappingJacksonHttpMessageConverter.class})
 @Accept(MediaType.APPLICATION_JSON)
 public interface RestClient {
-    @Post("/location")
+    @Post("/locations")
     void postToLocation(User user);
 }

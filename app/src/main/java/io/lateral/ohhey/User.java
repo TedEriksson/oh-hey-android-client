@@ -18,54 +18,30 @@ public class User {
     private static final String PREF_TWIITER = "PREF_TWITTER";
     private static final String PREF_GITHUB = "PREF_GITHUB";
 
-    @JsonProperty("user_id")
-    public synchronized String getId(Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(
-                PREF_UNIQUE_ID, Context.MODE_PRIVATE);
-        String uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
-        if (uniqueID == null) {
-            uniqueID = UUID.randomUUID().toString();
-            SharedPreferences.Editor editor = sharedPrefs.edit();
-            editor.putString(PREF_UNIQUE_ID, uniqueID);
-            editor.commit();
-        }
-        return uniqueID;
+    public User(String userId, double distance, String twitter, String github, int major, int minor) {
+        this.userId = userId;
+        this.distance = distance;
+        this.twitter = twitter;
+        this.github = github;
+        this.major = major;
+        this.minor = minor;
     }
+
+    @JsonProperty("user_id")
+    String userId;
 
     @JsonProperty()
-    float distance;
+    double distance;
 
-    @JsonProperty("twitter")
-    public String getTwitter(Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(
-                PREF_TWIITER, Context.MODE_PRIVATE);
-        return sharedPrefs.getString(PREF_TWIITER, null);
-    }
+    @JsonProperty()
+    String twitter = null;
 
-    public void setTwitter(String twitter, Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(
-                PREF_TWIITER, Context.MODE_PRIVATE);
-        sharedPrefs.edit().putString(PREF_TWIITER, twitter).commit();
-    }
+    @JsonProperty()
+    String github = null;
 
-    @JsonProperty("github")
-    public String getGitHub(Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(
-                PREF_GITHUB, Context.MODE_PRIVATE);
-        return sharedPrefs.getString(PREF_GITHUB, null);
-    }
+    @JsonProperty()
+    int major;
 
-    public void setGitHub(String gitHub, Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(
-                PREF_GITHUB, Context.MODE_PRIVATE);
-        sharedPrefs.edit().putString(PREF_GITHUB, gitHub).commit();
-    }
-
-    public float getDistance() {
-        return distance;
-    }
-
-    public void setDistance(float distance) {
-        this.distance = distance;
-    }
+    @JsonProperty()
+    int minor;
 }

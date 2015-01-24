@@ -3,8 +3,53 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView android:id="@+id/beacon"
-        android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_margin="10dp"
+                android:id="@+id/card_view_twitter"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardBackgroundColor="@color/twitter_blue"
+                card_view:cardCornerRadius="4dp">
+                <TextView android:id="@+id/twitterHandle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="40sp"
+                    android:padding="10dp"
+                    android:textColor="@android:color/white"
+                    android:text="Twitter"/>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/card_view_github"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardBackgroundColor="@android:color/black"
+                card_view:cardCornerRadius="4dp">
+                <TextView android:id="@+id/gitHubHandle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="40sp"
+                    android:padding="10dp"
+                    android:textColor="@android:color/white"
+                    android:text="GitHub"/>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

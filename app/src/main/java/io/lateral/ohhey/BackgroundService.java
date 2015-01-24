@@ -2,6 +2,7 @@ package io.lateral.ohhey;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -25,6 +26,17 @@ public class BackgroundService extends Service {
 
     private BeaconManager beaconManager;
 
+    boolean canSend = true;
+
+    Handler handler;
+
+    Runnable setCanSend = new Runnable() {
+        @Override
+        public void run() {
+            canSend = true;
+        }
+    };
+
     @RestService
     RestClient restClient;
 
@@ -42,14 +54,19 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         preferenceHelper = PreferenceHelper.getInstance(this);
 
+        handler = new Handler();
+
         beaconManager = new BeaconManager(this);
 
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override public void onBeaconsDiscovered(Region region, List<Beacon> beacons) {
                 Log.d("BEACONS", "Ranged beacons: " + beacons);
                 for (Beacon beacon : beacons) {
-                    double distance = Math.min(Utils.computeAccuracy(beacon), 6.0);
-                    restCalls(distance, beacon.getMajor(), beacon.getMinor());
+                    // Hack for the Hackathon
+                    if (beacon.getMajor() == 51605 && beacon.getMinor() == 60038) {
+                        Utils.Proximity proximity = Utils.computeProximity(beacon);
+                        restCalls(proximity.name(), beacon.getMajor(), beacon.getMinor());
+                    }
                 }
             }
         });
@@ -75,12 +92,17 @@ public class BackgroundService extends Service {
     }
 
     @Background
-    void restCalls(double distance, int major, int minor) {
+    void restCalls(String proximity, int major, int minor) {
+        if (!canSend) {
+            return;
+        }
+        canSend = false;
+        handler.postDelayed(setCanSend, 5000);
         try {
             Log.d("BEACONS", "posting user");
             restClient.postToLocation(new User(
                     preferenceHelper.getUserId(),
-                    distance,
+                    proximity,
                     preferenceHelper.getTwitter(),
                     preferenceHelper.getGitHub(),
                     major,

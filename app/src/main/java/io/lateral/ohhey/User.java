@@ -18,9 +18,9 @@ public class User {
     private static final String PREF_TWIITER = "PREF_TWITTER";
     private static final String PREF_GITHUB = "PREF_GITHUB";
 
-    public User(String userId, double distance, String twitter, String github, int major, int minor) {
+    public User(String userId, String proximity, String twitter, String github, int major, int minor) {
         this.userId = userId;
-        this.distance = distance;
+        this.proximity = proximity;
         this.twitter = twitter;
         this.github = github;
         this.major = major;
@@ -31,7 +31,7 @@ public class User {
     String userId;
 
     @JsonProperty()
-    double distance;
+    String proximity;
 
     @JsonProperty()
     String twitter = null;
